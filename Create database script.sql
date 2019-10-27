@@ -38,10 +38,8 @@ CREATE TABLE IF NOT EXISTS users (
         REFERENCES user_types(Id)
 );
 
-CREATE TRIGGER IF NOT EXISTS users_after_insert_trigger
-AFTER INSERT
-    ON users FOR EACH ROW
-    UPDATE users SET TimeOfRegistration = CURRENT_DATE() WHERE users.Id = New.Id;
+INSERT INTO users (EmailAddress, Password, PasswordSalt, PasswordVersionId, FirstName, LastName, UserTypeId, TimeOfRegistration)
+VALUES ('admin','admin','',1,'Admin','',1,'1900-01-01 00:00:00.000');
 
 CREATE TABLE IF NOT EXISTS job_positions (
     Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -60,11 +58,6 @@ CREATE TABLE IF NOT EXISTS job_positions (
     FOREIGN KEY (AdministratorUserId)
         REFERENCES users(Id)
 );
-
-CREATE TRIGGER IF NOT EXISTS job_positions_after_insert_trigger
-AFTER INSERT
-    ON job_positions FOR EACH ROW
-    UPDATE job_positions SET TimeOfPosting = CURRENT_DATE() WHERE job_positions.Id = New.Id;
 
 CREATE TABLE IF NOT EXISTS job_sectors (
     Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -97,11 +90,6 @@ CREATE TABLE IF NOT EXISTS job_applications (
         REFERENCES users(Id)
 );
 
-CREATE TRIGGER IF NOT EXISTS job_applications_after_insert_trigger
-AFTER INSERT
-    ON job_applications FOR EACH ROW
-    UPDATE job_applications SET TimeOfApplication = CURRENT_DATE() WHERE job_applications.Id = New.Id;
-
 CREATE TABLE IF NOT EXISTS sent_emails (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     FromEmailAddress VARCHAR(100) NOT NULL,
@@ -112,8 +100,3 @@ CREATE TABLE IF NOT EXISTS sent_emails (
     IsEmailReceived BIT NOT NULL DEFAULT 0,
     ErrorOnSending VARCHAR(1000) NULL
 );
-
-CREATE TRIGGER IF NOT EXISTS sent_emails_after_insert_trigger
-AFTER INSERT
-    ON sent_emails FOR EACH ROW
-    UPDATE sent_emails SET TimeOfSending = CURRENT_DATE() WHERE sent_emails.Id = New.Id;
