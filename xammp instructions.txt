@@ -1,0 +1,2 @@
+1. Инсталиране на Xampp последна версия (https://www.apachefriends.org/index.html)
+2. В прозорецът на Xampp -> Apache -> Config бутон в Xampp -> Apache (httpd.conf) -> Промяна на DocumentRoot от "C:/xampp/htdocs" към директорията, в която се намират php файловете ви
