@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Open job positions for NBU students</title>
+        <title>Job applications</title>
     </head>
     <body>
         <a href="/">Home</a>
@@ -11,8 +11,6 @@
         <br>
         <br>
         <?php
-            include 'Controllers\UsersController.php';
-            echo getUsers();
         ?>
     </body>
 </html>
