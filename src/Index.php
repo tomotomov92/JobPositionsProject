@@ -11,8 +11,9 @@
         <br>
         <br>
         <?php
-            include 'Controllers\UsersController.php';
-            echo getUsers();
+            include_once('api/Users/UsersController.php');
+            $usersController = new UsersController();
+            echo $usersController->getUsers();
         ?>
     </body>
 </html>
