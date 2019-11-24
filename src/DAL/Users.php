@@ -10,10 +10,33 @@ class Users {
         $this->db = DbConnection::getInstance();
     }
 
-    function getUserForLogin($email){
-        $sql = "CALL GetUserForLoggingIn('$email')";
-        $user = $this->db->get_result($sql);
-        return $user;
+    function createUser($email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId, $timeOfReg) {
+        $stmt = $this->db->prepare("CALL CreateUser(?,?,?,?,?,?,?,?)");
+        var_dump($stmt);
+        $stmt->bind_param('sssissis', $email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId, $timeOfReg);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            return $result->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
+
+    function getUserForLogin($email) {
+        $stmt = $this->db->prepare("CALL GetUserForLoggingIn(?)");
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            return $result->fetch_assoc();
+        } else {
+            return null;
+        }
     }
 }
 

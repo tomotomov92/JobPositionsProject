@@ -9,6 +9,11 @@ class UsersController {
         $this->users = new BusinessLogic\Users();
     }
 
+    function createUser($email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId) {
+        $result = $this->users->createUser($email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId);
+        // TODO: Add logic
+    }
+
     function getUserForLogin($email, $password, $userType) {
         $result = $this->users->getUserForLogin($email, $password, $userType);
 

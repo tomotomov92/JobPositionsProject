@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS job_offers_db COLLATE cp1251_general_ci;
 
 CREATE USER 'job_offers_user'@'%' IDENTIFIED BY 'pass1234';
-GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON `job\_offers\_db`.* TO 'job_offers_user'@'%';
+GRANT EXECUTE ON `job\_offers\_db`.* TO 'job_offers_user'@'%';
 
 CREATE TABLE IF NOT EXISTS user_types (
     Id INT AUTO_INCREMENT PRIMARY KEY,
