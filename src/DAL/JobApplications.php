@@ -1,8 +1,7 @@
 <?php
 
 namespace DAL;
-
-require_once('DbConnection.php');
+include 'DbConnection.php';
 
 class JobApplications {
     private $db = null;

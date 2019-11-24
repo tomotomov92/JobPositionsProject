@@ -2,8 +2,7 @@
 
 namespace DAL;
 
-require_once('DbConnection.php');
-
+include 'DbConnection.php';
 class Emails {
     private $db = null;
     

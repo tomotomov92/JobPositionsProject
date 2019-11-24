@@ -1,10 +1,8 @@
 <?php
 
 namespace BusinessLogic;
-
+include 'DAL/Users.php';
 use DAL;
-
-require_once($_SERVER['DOCUMENT_ROOT'].'/DAL/Users.php');
 
 class Users {
     private $users;
@@ -13,8 +11,24 @@ class Users {
         $this->users = new DAL\Users();
     }
 
-    function getUsers(){
-        return $this->users->getUsers();
+    function getUserForLogin($email, $password, $userType){
+        $user = $this->users->getUserForLogin($email);
+
+        if ($user) {
+            $isUserActive = boolval($user['IsActive']);
+            $userTypeId = intval($user['UserTypeId']);
+            $userPassword = $user['Password'];
+
+            if ($isUserActive === true &&
+                $userTypeId === $userType &&
+                $userPassword === $password){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return null;
     }
 }
 

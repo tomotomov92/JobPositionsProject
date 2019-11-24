@@ -1,5 +1,8 @@
 CREATE DATABASE IF NOT EXISTS job_offers_db COLLATE cp1251_general_ci;
 
+CREATE USER 'job_offers_user'@'%' IDENTIFIED BY 'pass1234';
+GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON `job\_offers\_db`.* TO 'job_offers_user'@'%';
+
 CREATE TABLE IF NOT EXISTS user_types (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
@@ -36,6 +39,16 @@ CREATE TABLE IF NOT EXISTS users (
         REFERENCES password_version(Id),
     FOREIGN KEY (UserTypeId)
         REFERENCES user_types(Id)
+);
+
+CREATE TABLE IF NOT EXISTS user_verification_codes (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    VerificationCode VARCHAR(100) NOT NULL,
+    TimeOfExpiration DATETIME NOT NULL,
+    IsUsed BIT NOT NULL DEFAULT 0,
+    FOREIGN KEY (UserId)
+        REFERENCES users(Id)
 );
 
 INSERT INTO users (EmailAddress, Password, PasswordSalt, PasswordVersionId, FirstName, LastName, UserTypeId, TimeOfRegistration)

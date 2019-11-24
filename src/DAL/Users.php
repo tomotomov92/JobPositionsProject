@@ -1,8 +1,7 @@
 <?php
 
 namespace DAL;
-
-require_once('DbConnection.php');
+include 'DbConnection.php';
 
 class Users {
     private $db = null;
@@ -11,8 +10,10 @@ class Users {
         $this->db = DbConnection::getInstance();
     }
 
-    function getUsers(){
-        return "getUsers from DAL";
+    function getUserForLogin($email){
+        $sql = "CALL GetUserForLoggingIn('$email')";
+        $user = $this->db->get_result($sql);
+        return $user;
     }
 }
 

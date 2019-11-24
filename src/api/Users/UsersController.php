@@ -1,6 +1,6 @@
 <?php
 
-require_once('BusinessLogic/Users.php');
+include 'BusinessLogic/Users.php';
 
 class UsersController {
     private $users;
@@ -9,8 +9,16 @@ class UsersController {
         $this->users = new BusinessLogic\Users();
     }
 
-    function getUsers(){
-        return $this->users->getUsers();
+    function getUserForLogin($email, $password, $userType) {
+        $result = $this->users->getUserForLogin($email, $password, $userType);
+
+        if ($result === true) {
+            echo "logged in";
+        } elseif ($result === false) {
+            echo "not logged in";
+        } else {
+            echo "problems logging in"; 
+        }
     }
 }
 

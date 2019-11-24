@@ -1,8 +1,7 @@
 <?php
 
 namespace DAL;
-
-include('config.php');
+include 'config.php';
 
 class DbConnection extends \mysqli {
 //class DbConnection {
@@ -16,7 +15,7 @@ class DbConnection extends \mysqli {
 
     //This method must be static, and must return an instance of the object if the object
     //does not already exist.
-    public static function getInstance() {
+    public static function getInstance(){
         if (!self::$instance instanceof self) {
                 self::$instance = new self;
         }
@@ -25,38 +24,37 @@ class DbConnection extends \mysqli {
 
     // The clone and wakeup methods prevents external instantiation of copies of the Singleton class,
     // thus eliminating the possibility of duplicate objects.
-    public function __clone() {
-    trigger_error('Clone is not allowed.', E_USER_ERROR);
-    }
-    public function __wakeup() {
-    trigger_error('Deserializing is not allowed.', E_USER_ERROR);
+    public function __clone(){
+        trigger_error('Clone is not allowed.', E_USER_ERROR);
     }
 
-    private function __construct() {
-    parent::__construct($this->dbHost, $this->user, $this->pass, $this->dbName);
-    if (mysqli_connect_error()) {
-        exit('Connect Error (' . mysqli_connect_errno() . ') '
-                . mysqli_connect_error());
+    public function __wakeup(){
+        trigger_error('Deserializing is not allowed.', E_USER_ERROR);
     }
-    parent::set_charset('utf-8');
 
+    private function __construct(){
+        parent::__construct($this->dbHost, $this->user, $this->pass, $this->dbName);
+        if (mysqli_connect_error()) {
+            exit('Connect Error (' . mysqli_connect_errno() . ') '
+                    . mysqli_connect_error());
+        }
+        parent::set_charset('utf-8');
     }
-    public function dbquery($query)
-    {
+
+    public function dbquery($query){
         if($this->query($query))
         {
             return true;
         }
     }
 
-    public function get_result($query) 
-    {
+    public function get_result($query){
         $result = $this->query($query);
         if ($result->num_rows > 0){
-        $row = $result->fetch_assoc();
-        return $row;
+            $row = $result->fetch_assoc();
+            return $row;
         } else
-        return null;
+            return null;
     }
 }
 
