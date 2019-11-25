@@ -5,9 +5,9 @@
     <body>
         <?php
             include "header.php";
-            include "api/Users/UsersController.php";
-            $users = new UsersController();
-            $users->getUserForLogin('admin','admin',1);
+            // include "api/Users/UsersController.php";
+            // $users = new UsersController();
+            // $users->getUserForLogin('admin','admin',1);
         ?>
     </body>
 </html>
