@@ -11,8 +11,8 @@ class Users {
         $this->users = new DAL\Users();
     }
 
-    function createUser($email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId) {
-        $user = $this->users->createUser($email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId, date('Y-m-d h:i:s', time()));
+    function createUser($email, $password, $passwordSalt, $fName, $lName, $userTypeId) {
+        $user = $this->users->createUser($email, $password, $passwordSalt, $fName, $lName, $userTypeId, date('Y-m-d h:i:s', time()));
         // TODO: Add logic
     }
 

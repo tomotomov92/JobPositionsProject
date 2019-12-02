@@ -10,10 +10,10 @@ class Users {
         $this->db = DbConnection::getInstance();
     }
 
-    function createUser($email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId, $timeOfReg) {
-        $stmt = $this->db->prepare("CALL CreateUser(?,?,?,?,?,?,?,?)");
+    function createUser($email, $password, $passwordSalt, $fName, $lName, $userTypeId, $timeOfReg) {
+        $stmt = $this->db->prepare("CALL CreateUser(?,?,?,?,?,?,?)");
         var_dump($stmt);
-        $stmt->bind_param('sssissis', $email, $password, $passwordSalt, $passwordVersionId, $fName, $lName, $userTypeId, $timeOfReg);
+        $stmt->bind_param('sssssis', $email, $password, $passwordSalt, $fName, $lName, $userTypeId, $timeOfReg);
         $stmt->execute();
 
         $result = $stmt->get_result();

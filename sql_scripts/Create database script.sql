@@ -12,21 +12,11 @@ CREATE TABLE IF NOT EXISTS user_types (
 INSERT INTO user_types(Name)
 VALUES ('Administrator'), ('Business'), ('User');
 
-CREATE TABLE IF NOT EXISTS password_version (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
-    AlgorithmName VARCHAR(100) NOT NULL,
-    CONSTRAINT password_version_unique UNIQUE (AlgorithmName)
-);
-
-INSERT INTO password_version(AlgorithmName)
-VALUES ('PlainText');
-
 CREATE TABLE IF NOT EXISTS users (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     EmailAddress VARCHAR(100) NOT NULL,
     Password VARCHAR(200) NOT NULL,
     PasswordSalt VARCHAR(50) NOT NULL,
-    PasswordVersionId INT NOT NULL,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     UserTypeId INT NOT NULL,
@@ -35,8 +25,6 @@ CREATE TABLE IF NOT EXISTS users (
     PasswordTriesLeft INT NOT NULL DEFAULT 3,
     IsVerified BIT NOT NULL DEFAULT 0,
     IsActive BIT NOT NULL DEFAULT 1,
-    FOREIGN KEY (PasswordVersionId)
-        REFERENCES password_version(Id),
     FOREIGN KEY (UserTypeId)
         REFERENCES user_types(Id)
 );
@@ -51,8 +39,8 @@ CREATE TABLE IF NOT EXISTS user_verification_codes (
         REFERENCES users(Id)
 );
 
-INSERT INTO users (EmailAddress, Password, PasswordSalt, PasswordVersionId, FirstName, LastName, UserTypeId, TimeOfRegistration)
-VALUES ('admin','admin','',1,'Admin','',1,'1900-01-01 00:00:00.000');
+INSERT INTO users (EmailAddress, Password, PasswordSalt, FirstName, LastName, UserTypeId, TimeOfRegistration)
+VALUES ('admin','admin','','Admin','',1,'1900-01-01 00:00:00.000');
 
 CREATE TABLE IF NOT EXISTS job_positions (
     Id INT AUTO_INCREMENT PRIMARY KEY,
