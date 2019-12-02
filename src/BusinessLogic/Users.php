@@ -27,12 +27,15 @@ class Users {
             if ($isUserActive === true &&
                 $userTypeId === $userType &&
                 $userPassword === $password){
+                echo "logged in";
                 return true;
             } else {
+                echo "not logged in";
                 return false;
             }
         }
 
+        echo "problems logging in"; 
         return null;
     }
 }

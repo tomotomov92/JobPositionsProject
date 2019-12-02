@@ -5,8 +5,8 @@
     <body>
         <?php
             include "header.php";
-            // include "api/Users/UsersController.php";
-            // $users = new UsersController();
+            include "BusinessLogic/Users.php";
+            $users = new BusinessLogic\Users();
             // $users->getUserForLogin('admin','admin',1);
         ?>
     </body>
