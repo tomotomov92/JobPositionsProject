@@ -1,0 +1,98 @@
+
+
+form{
+width:30%;
+margin:0px auto;
+padding: 20px;
+border: 1px solid indigo;
+/*#B0C4DE; */
+background: white;
+border-radius: 20px;
+/*border-radius: 0px 0px 10px 10px;*/
+}
+h1{
+	color:black;
+	margin: 70px;
+	
+}
+.input_group{
+	margin: 10px 0 px 10px 0px;
+}
+.input_group label{
+	display:block;
+	text-align: left;
+	margin: 3px;
+	
+}
+.input_group input{
+	height: 30px;
+	width: 93%;
+	padding: 5px 10px;
+	
+	font-size:16 px;
+	border-radius: 20px;
+	border: 1px solid gray;
+}
+
+
+.btn{
+	border-radius: 20px;
+	color: white;
+	padding: .375rem .75rem
+
+}
+
+ .btn-info{
+     border-radius: 20px;
+	color: red;
+	padding: .375rem .75rem
+}
+.input-group-text{
+	border-radius: 20px;
+	
+	float: none;
+	
+}
+h2{
+	text-align:center;
+}
+.form-control {
+   
+    border-radius: 20px;
+    
+}
+.col-lg-4{
+padding-right: 20px;
+padding-left: 0px;
+}
+
+
+.modal-content{
+	border: 15px solid indigo;
+}
+.btn-info:focus{
+	background-color: blueviolet;
+    border-color: blueviolet;
+    /*color: white; */
+}
+.btn-info{
+	color: white;
+}
+.modal-content{
+	border: 1px solid blueviolet;
+}
+
+.purpleBtn{
+	color: white;
+	background-color:#4c4981;
+	border: 1px solid #4c4981;
+	border-radius: 20px;
+	padding: .375rem .75rem
+}
+.purpleBtn:hover{
+	color: #4c4981;
+	background-color:white;
+	border: 1px solid #4c4981;
+}
+
+
