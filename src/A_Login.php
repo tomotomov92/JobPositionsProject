@@ -15,8 +15,8 @@
 	
     <body>
         <a href="/">Home</a>
-        <a href="http://localhost/project/JobPositionsProject-master/src/A_Login.php">Login</a>
-        <a href="http://localhost/project/JobPositionsProject-master/src/A_Registration.php">Registration</a>
+        <a href="A_Login.php">Login</a>
+        <a href="A_Registration.php">Registration</a>
         <br>
         <br>
         <br>
