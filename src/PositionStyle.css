@@ -1,0 +1,38 @@
+.table {
+    border-radius: 5px;
+    width: 50%;
+    margin: 0px auto;
+    float: none;
+}
+.purpleBtn{
+	color: white;
+	background-color:#4c4981;
+	border: 1px solid #4c4981;
+	border-radius: 20px;
+	padding: .375rem .75rem
+}
+.purpleBtn:hover{
+	color: #4c4981;
+	background-color:white;
+	border: 1px solid #4c4981;
+}
+.padding{
+	padding-bottom: 20px!important;
+}
+
+.navbarColor{
+	background-color: #4c4981;
+	/*padding: 10px;*/
+}
+.MyBtn2{
+    margin: 0 auto;
+    display: block;
+    padding: 150px;
+    color:red;
+}
+a.backgroundWhite{
+	color:white;
+}
+.backgroundWhite:hover{
+	color:black;
+}

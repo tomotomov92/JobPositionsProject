@@ -48,22 +48,6 @@
                   } else {
                     $msg = 'Wrong username or password';
                   }
-		/*-- declare the variables */
-    // $name= $_POST['username'];
-    //     $password = $_POST['password'];
-    //     $valid=true;
-		
-		// //Check the if name has been entered
-		// if(empty($_POST['username'])){
-		// 	$errName='Please enter your user name!';
-		// 	$valid=false;
-		// }
-		
-		// //Check if a valid password has been entered
-		// if(empty($_POST['password']) || (preg_match("/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/", $_POST["password"]) === 0)) {
-    //         $errPass= '<p class="errText">Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit</p>';
-    //         $valid=false;
-		// }
 		if($valid){
 			echo "The form has been submitted";
 		}
@@ -94,16 +78,14 @@
         <div class="col-lg-4">
     <button type="submit" class="btn purpleBtn" name="submit" 
     data-toggle="button" aria-pressed="false" autocomplete="off">Login</button>
-           <!-- <button class="btn btn-primary btn-sx" type="button">Confirm</button> -->
         </div>
     </div>
     
     </div>
     <?php echo $msg; ?>
-
-    <button type="submit" class="btn" name="registration" 
-    data-toggle="button" aria-pressed="false" autocomplete="off">Registration</button>
-    Not yet a member? <a href="register.php">Sign up</a>
+<br></br>
+  
+ <a class="font-weight-normal">Not yet a member?</a><a href="A_Registration.php" class="font-italic">        Sign up!</a>
 </form>
 </div>
 </body>
