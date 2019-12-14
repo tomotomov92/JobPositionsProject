@@ -1,42 +1,58 @@
 <?php
 
 namespace BusinessLogic;
+include 'BusinessObjects/LoginResult.php';
 include 'DAL/Users.php';
+use BusinessObjects;
 use DAL;
 
 class Users {
-    private $users;
+    private $usersDAL;
 
     public function __construct(){
-        $this->users = new DAL\Users();
+        $this->usersDAL = new DAL\Users();
     }
 
-    function createUser($email, $password, $passwordSalt, $fName, $lName, $userTypeId) {
-        $user = $this->users->createUser($email, $password, $passwordSalt, $fName, $lName, $userTypeId, date('Y-m-d h:i:s', time()));
-        // TODO: Add logic
+    function createUser($email, $password, $fName, $lName, $userTypeId) {
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+        $user = $this->usersDAL->createUser($email, $hashedPassword, $fName, $lName, $userTypeId, date('Y-m-d h:i:s', time()));
+        return $user;
     }
 
-    function getUserForLogin($email, $password, $userType) {
-        $user = $this->users->getUserForLogin($email);
+    function updateUserPassword($email, $oldPassword, $newPassword) {
+
+    }
+
+    function loginUser($email, $password, $userType) {
+        $loginResult = new BusinessObjects\LoginResult();
+        $user = $this->usersDAL->getUser($email);
 
         if ($user) {
-            $isUserActive = boolval($user['IsActive']);
-            $userTypeId = intval($user['UserTypeId']);
-            $userPassword = $user['Password'];
-
-            if ($isUserActive === true &&
-                $userTypeId === $userType &&
-                $userPassword === $password){
-                echo "logged in";
-                return true;
+            if ($user->isActive === true) {
+                if ($user->userTypeId === $userType &&
+                    $user->password === $password) {
+                    $user->passwordTriesLeft = 3;
+                    $this->usersDAL->updatePasswordTriesLeft($user);
+                    $loginResult->isSuccess = true;
+                } else {
+                    $user->passwordTriesLeft--;
+                    if ($user->passwordTriesLeft > 0) {
+                        $this->usersDAL->updatePasswordTriesLeft($user);
+                        $loginResult->errorMessage = "Wrong password! You have $user->passwordTriesLeft tries left!";
+                    } else {
+                        $user->isActive = false;
+                        $this->usersDAL->deactivateUser($user);
+                        $loginResult->errorMessage = "The user is deactivated!";
+                    }
+                }
             } else {
-                echo "not logged in";
-                return false;
+                $loginResult->errorMessage = "The user is not active!";
             }
+        } else {
+            $loginResult->errorMessage = "The user name or the password are not valid!";
         }
 
-        echo "problems logging in"; 
-        return null;
+        return $loginResult;
     }
 }
 

@@ -7,7 +7,12 @@
             include "header.php";
             include "BusinessLogic/Users.php";
             $users = new BusinessLogic\Users();
-            // $users->getUserForLogin('admin','admin',1);
+            $loginResult = $users->loginUser('admin','ad1min',1);
+            if ($loginResult->isSuccess) {
+                echo("Login successful");
+            } else {
+                echo($loginResult->errorMessage);
+            }
         ?>
     </body>
 </html>
