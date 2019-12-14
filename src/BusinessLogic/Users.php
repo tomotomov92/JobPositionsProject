@@ -2,6 +2,7 @@
 
 namespace BusinessLogic;
 include 'BusinessObjects/LoginResult.php';
+include 'BusinessObjects/UserResult.php';
 include 'DAL/Users.php';
 use BusinessObjects;
 use DAL;
@@ -25,23 +26,24 @@ class Users {
 
     function loginUser($email, $password, $userType) {
         $loginResult = new BusinessObjects\LoginResult();
-        $user = $this->usersDAL->getUser($email);
+        $rowResult = $this->usersDAL->getUser($email);
+        $user = BusinessObjects\UserResult::fromRow($rowResult);
 
         if ($user) {
             if ($user->isActive === true) {
                 if ($user->userTypeId === $userType &&
                     $user->password === $password) {
                     $user->passwordTriesLeft = 3;
-                    $this->usersDAL->updatePasswordTriesLeft($user);
+                    $this->usersDAL->updatePasswordTriesAndIsActiveLeft($user->emailAddress, $user->passwordTriesLeft, $user->isActive);
                     $loginResult->isSuccess = true;
                 } else {
                     $user->passwordTriesLeft--;
                     if ($user->passwordTriesLeft > 0) {
-                        $this->usersDAL->updatePasswordTriesLeft($user);
+                        $this->usersDAL->updatePasswordTriesAndIsActiveLeft($user->emailAddress, $user->passwordTriesLeft, $user->isActive);
                         $loginResult->errorMessage = "Wrong password! You have $user->passwordTriesLeft tries left!";
                     } else {
                         $user->isActive = false;
-                        $this->usersDAL->deactivateUser($user);
+                        $this->usersDAL->updatePasswordTriesAndIsActiveLeft($user->emailAddress, $user->passwordTriesLeft, $user->isActive);
                         $loginResult->errorMessage = "The user is deactivated!";
                     }
                 }

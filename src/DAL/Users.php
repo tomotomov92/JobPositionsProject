@@ -2,9 +2,6 @@
 
 namespace DAL;
 include 'DbConnection.php';
-include 'BusinessObjects/UserResult.php';
-
-use BusinessObjects;
 
 class Users {
     private $db = null;
@@ -37,44 +34,25 @@ class Users {
         $result = $stmt->get_result();
 
         if ($result->num_rows === 1) {
-            $row = $result->fetch_assoc();
-            return BusinessObjects\UserResult::fromRow($row);
+            return $result->fetch_assoc();
         } else {
             return null;
         }
     }
 
-    function updatePasswordTriesLeft($user) {
+    function updatePasswordTriesAndIsActiveLeft($emailAddress, $passwordTriesLeft, $isActive) {
         $stmt = $this->db->prepare("UPDATE users SET PasswordTriesLeft = ?, IsActive = ? WHERE EmailAddress = ?;");
         
-        $stmt->bind_param('iis', $user->passwordTriesLeft, $user->isActive, $user->emailAddress);
+        $stmt->bind_param('iis', $passwordTriesLeft, $isActive, $emailAddress);
         $stmt->execute();
     }
 
-    function deactivateUser($user) {
-        $stmt = $this->db->prepare("UPDATE users SET PasswordTriesLeft = ?, IsActive = ? WHERE EmailAddress = ?;");
-        
-        $passwordTriesLeft = 0;
-        $isUserActive = intval(false);
-        $stmt->bind_param('iis', $user->passwordTriesLeft, $user->isActive, $user->emailAddress);
-        $stmt->execute();
-    }
-
-    function activateUser($user) {
-        $stmt = $this->db->prepare("UPDATE users SET PasswordTriesLeft = ?, IsActive = ? WHERE EmailAddress = ?;");
-        
-        $passwordTriesLeft = 3;
-        $isUserActive = intval(true);
-        $stmt->bind_param('iis', $user->passwordTriesLeft, $user->isActive, $user->emailAddress);
-        $stmt->execute();
-    }
-
-    function updateUserPassword($user) {
+    function updateUserPassword($emailAddress ,$password , $passwordTriesLeft, $isActive) {
         $stmt = $this->db->prepare("UPDATE users SET Password = ? PasswordTriesLeft = ?, IsActive = ? WHERE EmailAddress = ?;");
         
         $passwordTriesLeft = 3;
         $isUserActive = intval(true);
-        $stmt->bind_param('siis', $user->password, $user->passwordTriesLeft, $user->isActive, $user->emailAddress);
+        $stmt->bind_param('siis', $password , $passwordTriesLeft, $isActive, $emailAddress);
         $stmt->execute();
     }
 }
