@@ -46,6 +46,42 @@ class Users {
         $stmt->bind_param('siisi', $password , $passwordTriesLeft, $isActive, $emailAddress, $userTypeId);
         $stmt->execute();
     }
+
+    function updateUserDetails($userId, $emailAddress, $firstName, $lastName, $isVerified) {
+        $stmt = $this->db->prepare("UPDATE users SET EmailAddress = ?, FirstName = ?, LastName = ?, IsVerified = ? WHERE Id = ?;");
+        
+        $stmt->bind_param('siisi', $emailAddress, $firstName, $lastName, $isVerified, $userId);
+        $stmt->execute();
+    }
+
+    function createVerificationCode($userId, $verificationCode, $timeOfExpiration) {
+        $stmt = $this->db->prepare("INSERT INTO user_verification_codes (UserId, VerificationCode, TimeOfExpiration) VALUES (?,?,?);");
+        
+        $stmt->bind_param('iss', $userId, $verificationCode, $timeOfExpiration);
+        $stmt->execute();
+    }
+
+    function getVerificationCode($userId) {
+        $stmt = $this->db->prepare("SELECT Id, UserId, VerificationCode, TimeOfExpiration, IsUsed, IsValid FROM user_verification_codes WHERE UserId = ? AND IsValid = 1 AND TimeOfExpiration >= NOW();");
+        
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            return $result->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
+
+    function updateVerificationCode($id, $isUsed, $isValid) {
+        $stmt = $this->db->prepare("UPDATE user_verification_codes SET IsUsed = ?, IsValid = ? WHERE Id = ?;");
+        
+        $stmt->bind_param('iii', $isUsed, $isValid, $id);
+        $stmt->execute();
+    }
 }
 
 ?>

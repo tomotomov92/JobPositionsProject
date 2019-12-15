@@ -36,12 +36,13 @@ CREATE TABLE IF NOT EXISTS user_verification_codes (
     VerificationCode VARCHAR(100) NOT NULL,
     TimeOfExpiration DATETIME NOT NULL,
     IsUsed BIT NOT NULL DEFAULT 0,
+    IsValid BIT NOT NULL DEFAULT 1,
     FOREIGN KEY (UserId)
         REFERENCES users(Id)
 );
 
-INSERT INTO users (EmailAddress, Password, FirstName, LastName, UserTypeId, TimeOfRegistration)
-VALUES ('admin','admin','Admin','',1,'1900-01-01 00:00:00.000');
+INSERT INTO users (EmailAddress, Password, FirstName, LastName, UserTypeId, TimeOfRegistration, IsVerified)
+VALUES ('admin', '$2y$12$XMcSoI8o6/m8iaodVsdkt.G4OVmNWftRjim2OUSE/RQ2nivqpM8/S', 'Admin', '', 1, '1900-01-01 00:00:00', 1);
 
 CREATE TABLE IF NOT EXISTS job_positions (
     Id INT AUTO_INCREMENT PRIMARY KEY,
