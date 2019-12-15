@@ -1,6 +1,8 @@
+DROP DATABASE IF EXISTS job_offers_db;
+
 CREATE DATABASE IF NOT EXISTS job_offers_db COLLATE cp1251_general_ci;
 
-CREATE USER 'job_offers_user'@'%' IDENTIFIED BY 'pass1234';
+CREATE USER IF NOT EXISTS 'job_offers_user'@'%' IDENTIFIED BY 'pass1234';
 GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON `job\_offers\_db`.* TO 'job_offers_user'@'%';
 
 CREATE TABLE IF NOT EXISTS user_types (
@@ -21,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
     UserTypeId INT NOT NULL,
     TimeOfRegistration DATETIME NOT NULL,
     RequirePasswordChange BIT NOT NULL DEFAULT 0,
-    PasswordTriesLeft INT NOT NULL DEFAULT 3,
+    PasswordTriesLeft INT NOT NULL DEFAULT 10,
     IsVerified BIT NOT NULL DEFAULT 0,
     IsActive BIT NOT NULL DEFAULT 1,
     FOREIGN KEY (UserTypeId)

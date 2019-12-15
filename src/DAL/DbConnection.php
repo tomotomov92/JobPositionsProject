@@ -1,10 +1,10 @@
 <?php
 
 namespace DAL;
-include 'config.php';
+
+include 'Constants.php';
 
 class DbConnection extends \mysqli {
-//class DbConnection {
     private static $instance = null;
 
     // db connection config vars

@@ -3,6 +3,7 @@
 namespace DAL;
 
 include 'DbConnection.php';
+
 class Emails {
     private $db = null;
     

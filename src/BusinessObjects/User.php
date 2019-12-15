@@ -2,7 +2,7 @@
 
 namespace BusinessObjects;
 
-class UserResult {
+class User {
     public $id;
     public $emailAddress;
     public $password;

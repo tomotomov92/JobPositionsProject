@@ -1,6 +1,7 @@
 <?php
 
 namespace DAL;
+
 include 'DbConnection.php';
 
 class JobApplications {
