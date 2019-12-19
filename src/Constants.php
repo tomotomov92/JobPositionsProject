@@ -1,10 +1,10 @@
 <?php
 
 // Database connection constants
-define('DBUSER','job_offers_user');
-define('DBPWD','pass1234');
+define('DBUSER','mharalanov');
+define('DBPWD','ABcd_1234!');
 define('DBHOST','localhost');
-define('DBNAME','job_offers_db');
+define('DBNAME','job_portal');
 
 // Password constants
 define('DefaultPasswordTriesLeft',10);

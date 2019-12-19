@@ -10,6 +10,10 @@ class JobPositions {
     public function __construct(){
         $this->db = DbConnection::getInstance();
     }
+
+    public function getJobPosition($id){
+
+    }
 }
 
 ?>
