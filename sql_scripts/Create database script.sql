@@ -44,6 +44,12 @@ CREATE TABLE IF NOT EXISTS user_verification_codes (
 INSERT INTO users (EmailAddress, Password, FirstName, LastName, UserTypeId, TimeOfRegistration, IsVerified)
 VALUES ('admin', '$2y$12$XMcSoI8o6/m8iaodVsdkt.G4OVmNWftRjim2OUSE/RQ2nivqpM8/S', 'Admin', '', 1, '1900-01-01 00:00:00', 1);
 
+
+CREATE TABLE IF NOT EXISTS cities (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  CityName VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS job_positions (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     ParentId INT NULL,
@@ -51,15 +57,18 @@ CREATE TABLE IF NOT EXISTS job_positions (
     PositionDesc VARCHAR(2000) NOT NULL,
     BusinessUserId INT NOT NULL,
     AdministratorUserId INT NOT NULL,
+    CityId INT NOT NULL,
     TimeOfPosting DATETIME NOT NULL,
-    IsActial BIT NOT NULL DEFAULT 1,
+    IsActual BIT NOT NULL DEFAULT 1,
     IsDeleted BIT NOT NULL DEFAULT 0,
     FOREIGN KEY (ParentId)
         REFERENCES job_positions(Id),
     FOREIGN KEY (BusinessUserId)
         REFERENCES users(Id),
     FOREIGN KEY (AdministratorUserId)
-        REFERENCES users(Id)
+        REFERENCES users(Id),
+    FOREIGN KEY (CityId)
+        REFERENCES cities(Id)
 );
 
 CREATE TABLE IF NOT EXISTS job_sectors (
