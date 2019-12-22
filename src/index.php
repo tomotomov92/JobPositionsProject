@@ -1,66 +1,79 @@
 <html>
-    <head>
-        <title>Open job positions for NBU students</title>
+  <head>
+    <title>Search Page</title>
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/css/job_offer.css">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="SearchCSS.css">
+    <script type="text/javascript" src="assets/js/SearchScript.js"></script>
+  </head>
+  <body>
+    <?php
+      include "header.php";
+    ?>
+    <section>
+      <nav>
+          <div class="input-group">
+            <select class="custom-select" id="SelectCityOrMunicipality" aria-label="CustomSearch">
+              <option disabled selected value="">Please choose city ot municipality</option>
+              <?php
+                $dbhost = "localhost";
+                $dbuser = "job_offers_user";
+                $dbpass = "pass1234";
+                $db = "job_offers_db";
+                $conn = new mysqli($dbhost, $dbuser, $dbpass,$db);
 
-    </head>
-    <body>
-        <?php
-            include "header.php";
-            include "BusinessLogic/Users.php";
-            
-            $users = new BusinessLogic\Users();
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+              
 
-            // // Registration
-            // $registrationResult = $users->registerUser("test@test.com", "testPassword", "Test", "Test", UserType_User);
-            // if ($registrationResult->isSuccess) {
-            //     echo("Registration successful");
-            // } else {
-            //     echo($registrationResult->errorMessage);
-            // }
 
-            // // Login
-            // $loginResult = $users->loginUser('admin', 'admin', UserType_Administrator);
-            // if ($loginResult->isSuccess) {
-            //     echo("Login successful");
-            // } else {
-            //     echo($loginResult->errorMessage);
-            // }
+                $sql = "SELECT Id, CityName FROM cities WHERE IsMainCity = true;";
+                $result = $conn->query($sql);
+              
+                if ($result->num_rows > 0) {
+                  while($row = $result->fetch_assoc()) {
+                      echo('<option value="' . $row["Id"] . '">' . $row["CityName"] . '</option' . '<br>');
+                  }
+                }
+              
+                $sql = "SELECT Id, CityName FROM cities WHERE IsMainCity = false;";
+                $result = $conn->query($sql);
+                echo('<optgroup label="_________">');
+                if ($result->num_rows > 0) {
+                  while($row = $result->fetch_assoc()) {
+                      echo('<option value="' . $row["Id"] . '">' . $row["CityName"] . '</option' . '<br>');
+                  }
+                }
+                echo('</optgroup>');
+                $conn->close();
+              ?>
+            </select>
+            <div class="input-group-append">
+              <button onclick="pressSearch()" class="btn btn-outline-secondary" type="button">Search</  button>
+            </div>
+          </div>
+      </nav>
+      <article>
 
-            // // Login
-            // $loginResult = $users->loginUser('test@test.com', 'testPassword', UserType_User);
-            // if ($loginResult->isSuccess) {
-            //     echo("Login successful");
-            // } else {
-            //     echo($loginResult->errorMessage);
-            // }
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <img src="assets/images/workTime.png" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+              <p class="text-center">On every job you do, you\'ve got to raise your game. My <br>   ambition is to just get better and better every job you do — <br> you should never stop   trying to get better. You have to teach <br> yourself new things — I don\'t think you   necessarily learn <br> them from other people because you have your own style of <br>   doing things, but hopefully you get better.</p>
+              <p class="text-center font-italic">Ray Winstone</p>
+            </div>
+          </div>
+        </div>
 
-            // // Update Password
-            // $updatePasswordResult = $users->updateUserPassword('test@test.com', 'testPassword', 'newTestPassword', UserType_User);
-            // if ($updatePasswordResult->isSuccess) {
-            //     echo("Password updated successfully");
-            // } else {
-            //     echo($updatePasswordResult->errorMessage);
-            // }
-
-            // // Update Verification Code
-            // $users->generateAndSendVerificationEmail('test@test.com', UserType_User);
-
-            // // Verify User
-            // $userVerification = $users->verifyUser('test@test.com', '6747433a60b8e93e6f42d2f1024593b6c197c6e39e3e1a27f4d0a4745eac5d9a', UserType_User);
-            // if ($userVerification->isSuccess) {
-            //     echo("User verified successfully");
-            // } else {
-            //     echo($userVerification->errorMessage);
-            // }
-        ?>
-
-        <?php include "footer.php" ?>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </body>
+      </article>
+    </section>
+    <?php
+      include "footer.php";
+    ?>
+  </body>
 </html>

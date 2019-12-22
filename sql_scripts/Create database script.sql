@@ -11,9 +11,6 @@ CREATE TABLE IF NOT EXISTS user_types (
     CONSTRAINT user_types_unique UNIQUE (Name)
 );
 
-INSERT INTO user_types(Name)
-VALUES ('Administrator'), ('Business'), ('User');
-
 CREATE TABLE IF NOT EXISTS users (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     EmailAddress VARCHAR(100) NOT NULL,
@@ -41,13 +38,10 @@ CREATE TABLE IF NOT EXISTS user_verification_codes (
         REFERENCES users(Id)
 );
 
-INSERT INTO users (EmailAddress, Password, FirstName, LastName, UserTypeId, TimeOfRegistration, IsVerified)
-VALUES ('admin', '$2y$12$XMcSoI8o6/m8iaodVsdkt.G4OVmNWftRjim2OUSE/RQ2nivqpM8/S', 'Admin', '', 1, '1900-01-01 00:00:00', 1);
-
-
 CREATE TABLE IF NOT EXISTS cities (
   Id INT AUTO_INCREMENT PRIMARY KEY,
-  CityName VARCHAR(100) NOT NULL
+  CityName VARCHAR(100) NOT NULL,
+  IsMainCity BIT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS job_positions (
