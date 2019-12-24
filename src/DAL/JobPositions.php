@@ -11,8 +11,16 @@ class JobPositions {
         $this->db = DbConnection::getInstance();
     }
 
-    public function getJobPosition($id){
+    function getJobPosition($id){
 
+    }
+
+    function getCities() {
+        $stmt = $this->db->prepare("SELECT Id, CityName, IsMainCity FROM cities;");
+        
+        $stmt->execute();
+
+        return $stmt->get_result();
     }
 }
 

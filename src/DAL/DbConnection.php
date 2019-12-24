@@ -40,22 +40,6 @@ class DbConnection extends \mysqli {
         }
         parent::set_charset('utf-8');
     }
-
-    public function dbquery($query){
-        if($this->query($query))
-        {
-            return true;
-        }
-    }
-
-    public function get_result($query){
-        $result = $this->query($query);
-        if ($result->num_rows > 0){
-            $row = $result->fetch_assoc();
-            return $row;
-        } else
-            return null;
-    }
 }
 
 ?>

@@ -18,7 +18,7 @@ class User {
     public function __construct(){
     }
     
-    public static function fromRow($row){
+    public static function fromRow($row) {
         $instance = new self();
         $instance->id = intval($row["Id"]);
         $instance->emailAddress = $row["EmailAddress"];

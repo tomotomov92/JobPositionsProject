@@ -12,12 +12,12 @@ class VerificationCodeResult extends BaseResult {
     public $isUsed;
     public $isValid;
     
-    public function __construct(){
+    public function __construct() {
         $this->isSuccess = false;
         $this->errorMessage = "";
     }
     
-    public static function fromRow($row){
+    public static function fromRow($row) {
         $instance = new self();
         if ($row) {
             $instance->isSuccess = true;

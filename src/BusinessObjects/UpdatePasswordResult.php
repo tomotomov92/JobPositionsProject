@@ -7,12 +7,12 @@ include_once 'BusinessObjects/BaseResult.php';
 class UpdatePasswordResult extends BaseResult {
     public $user;
     
-    public function __construct(){
+    public function __construct() {
         $this->isSuccess = false;
         $this->errorMessage = "";
     }
     
-    public function setUser($user){
+    public function setUser($user) {
         $this->isSuccess = true;
         $this->user = $user;
         return $this;
