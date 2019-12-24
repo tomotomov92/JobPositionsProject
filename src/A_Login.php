@@ -88,5 +88,8 @@
  <a class="font-weight-normal">Not yet a member?</a><a href="A_Registration.php" class="font-italic">        Sign up!</a>
 </form>
 </div>
-</body>
+        <?php
+            include "header.php";
+        ?>
+    </body>
 </html>

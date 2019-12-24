@@ -1,4 +1,9 @@
+DROP DATABASE IF EXISTS job_offers_db;
+
 CREATE DATABASE IF NOT EXISTS job_offers_db COLLATE cp1251_general_ci;
+
+CREATE USER IF NOT EXISTS 'job_offers_user'@'%' IDENTIFIED BY 'pass1234';
+GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON `job\_offers\_db`.* TO 'job_offers_user'@'%';
 
 CREATE TABLE IF NOT EXISTS user_types (
     Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -9,37 +14,35 @@ CREATE TABLE IF NOT EXISTS user_types (
 INSERT INTO user_types(Name)
 VALUES ('Administrator'), ('Business'), ('User');
 
-CREATE TABLE IF NOT EXISTS password_version (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
-    AlgorithmName VARCHAR(100) NOT NULL,
-    CONSTRAINT password_version_unique UNIQUE (AlgorithmName)
-);
-
-INSERT INTO password_version(AlgorithmName)
-VALUES ('PlainText');
-
 CREATE TABLE IF NOT EXISTS users (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     EmailAddress VARCHAR(100) NOT NULL,
     Password VARCHAR(200) NOT NULL,
-    PasswordSalt VARCHAR(50) NOT NULL,
-    PasswordVersionId INT NOT NULL,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     UserTypeId INT NOT NULL,
     TimeOfRegistration DATETIME NOT NULL,
     RequirePasswordChange BIT NOT NULL DEFAULT 0,
-    PasswordTriesLeft INT NOT NULL DEFAULT 3,
+    PasswordTriesLeft INT NOT NULL DEFAULT 10,
     IsVerified BIT NOT NULL DEFAULT 0,
     IsActive BIT NOT NULL DEFAULT 1,
-    FOREIGN KEY (PasswordVersionId)
-        REFERENCES password_version(Id),
     FOREIGN KEY (UserTypeId)
         REFERENCES user_types(Id)
 );
 
-INSERT INTO users (EmailAddress, Password, PasswordSalt, PasswordVersionId, FirstName, LastName, UserTypeId, TimeOfRegistration)
-VALUES ('admin','admin','',1,'Admin','',1,'1900-01-01 00:00:00.000');
+CREATE TABLE IF NOT EXISTS user_verification_codes (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    VerificationCode VARCHAR(100) NOT NULL,
+    TimeOfExpiration DATETIME NOT NULL,
+    IsUsed BIT NOT NULL DEFAULT 0,
+    IsValid BIT NOT NULL DEFAULT 1,
+    FOREIGN KEY (UserId)
+        REFERENCES users(Id)
+);
+
+INSERT INTO users (EmailAddress, Password, FirstName, LastName, UserTypeId, TimeOfRegistration, IsVerified)
+VALUES ('admin', '$2y$12$XMcSoI8o6/m8iaodVsdkt.G4OVmNWftRjim2OUSE/RQ2nivqpM8/S', 'Admin', '', 1, '1900-01-01 00:00:00', 1);
 
 CREATE TABLE IF NOT EXISTS job_positions (
     Id INT AUTO_INCREMENT PRIMARY KEY,
