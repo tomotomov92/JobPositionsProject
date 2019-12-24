@@ -1,37 +1,4 @@
-<?php
-
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "root";
-$db = "JobCareers";
-$conn = new mysqli($dbhost, $dbuser, $dbpass,$db);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "call JobCareers.getActivePosByCity(" . $_GET['ID'] . ")";
-$result = $conn->query($sql);
-
-$resultFromSearch = '';
-
-if ($result->num_rows > 0) {
-  while($row = $result->fetch_assoc()) {
-      $resultFromSearch .= 
-        '<tr>
-          <td>' . $row["idPositions"] . '</td>
-          <td>' . $row["positionName"]. '</td>
-          <td>' . $row["description"]. '</td>
-          <td>' . $row["createdOn"]. '</td>
-          <td> TEST </td>
-        </tr>';
-  }
-}
-
-$conn->close();
-
-echo '<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -59,35 +26,44 @@ echo '<!DOCTYPE html>
       <table class="table table-striped table-bordered resultTable">
         <thead>
           <tr>
-            <th class="th-sm"> №
-            </th>
-            <th class="th-sm">Job Name
-            </th>
-            <th class="th-sm">Job Description
-            </th>
-            <th class="th-sm js-publishing-date">Publishing Date
-            </th>
-            <th class="th-sm">Posted by
-            </th>
+            <th class="th-sm">№</th>
+            <th class="th-sm">Job Name</th>
+            <th class="th-sm">Job Description</th>
+            <th class="th-sm js-publishing-date">Publishing Date</th>
+            <th class="th-sm">Posted by</th>
+            <th class="th-sm">City</th>
           </tr>
         </thead>
         <tbody>
 
-         ' . $resultFromSearch . '
+        <?php
+          include "BusinessLogic/JobPositions.php";
+          $jobPositions = new BusinessLogic\JobPositions();
+          $jobPositionsByCity = $jobPositions->getJobPositionsByCityId($_GET['ID']);
+
+          foreach($jobPositionsByCity as $jobPosition) {
+            echo(
+              "<tr>
+                <td>$jobPosition->id</td>
+                <td>$jobPosition->positionName</td>
+                <td>$jobPosition->positionDesc</td>
+                <td>$jobPosition->timeOfPosting</td>
+                <td>$jobPosition->businessUserName</td>
+                <td>$jobPosition->cityName</td>
+              </tr>");
+          }
+
+        ?>
            
         </tbody>
         <tfoot>
           <tr>
-            <th>№
-            </th>
-            <th>Job Name
-            </th>
-            <th>Job Description
-            </th>
-            <th>Publishing Date
-            </th>
-            <th>Posteb by
-            </th>
+            <th class="th-sm">№</th>
+            <th class="th-sm">Job Name</th>
+            <th class="th-sm">Job Description</th>
+            <th class="th-sm js-publishing-date">Publishing Date</th>
+            <th class="th-sm">Posted by</th>
+            <th class="th-sm">City</th>
           </tr>
         </tfoot>
       </table>

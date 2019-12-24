@@ -2,7 +2,7 @@
 
 namespace DAL;
 
-include 'DbConnection.php';
+include_once 'DbConnection.php';
 
 class Users {
     private $db = null;
@@ -16,6 +16,21 @@ class Users {
 
         $stmt->bind_param('ssssis', $email, $password, $fName, $lName, $userTypeId, $timeOfReg);
         $stmt->execute();
+    }
+
+    function getUserById($userId, $userTypeId) {
+        $stmt = $this->db->prepare("SELECT Id, EmailAddress, Password, FirstName, LastName, UserTypeId, TimeOfRegistration, RequirePasswordChange, PasswordTriesLeft, IsVerified, IsActive FROM users WHERE Id = ? AND UserTypeId = ?;");
+        
+        $stmt->bind_param('ii', $userId, $userTypeId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            return $result->fetch_assoc();
+        } else {
+            return null;
+        }
     }
 
     function getUser($email, $userTypeId) {

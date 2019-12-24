@@ -2,7 +2,7 @@
 
 namespace DAL;
 
-include 'DbConnection.php';
+include_once 'DbConnection.php';
 
 class JobApplications {
     private $db = null;
